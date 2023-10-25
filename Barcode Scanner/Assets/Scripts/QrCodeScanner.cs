@@ -2,6 +2,7 @@ using UnityEngine;
 using ZXing;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class QRCodeScanner : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class QRCodeScanner : MonoBehaviour
     void Start()
     {
         SetUpCamera();
+        StartCoroutine(KeepScanning());
     }
 
     // Update is called once per frame
@@ -80,17 +82,17 @@ public class QRCodeScanner : MonoBehaviour
             Result result = barcodeReader.Decode(_cameraTexture.GetPixels32(), _cameraTexture.width, _cameraTexture.height);
             if (result != null)
             {
-                _sheets.ReadDataFromGoogleSheet(result.Text, GetResult);
-                //_textOut.text = result.Text;
+                //_sheets.ReadDataFromGoogleSheet(result.Text, GetResult);
+                StartCoroutine(_sheets.ReadDataFromGoogleSheet(result.Text, GetResult));
             }
             else
             {
-                _textOut.text = "Failed to Read QR CODE";
+                _textOut.text = "";
             }
         }
         catch
         {
-            _textOut.text = "FAILED IN TRY";
+            //_textOut.text = "FAILED IN TRY";
         }
     }
 
@@ -98,5 +100,14 @@ public class QRCodeScanner : MonoBehaviour
     {
         _textOut.text = isDataExists ? "User Valid" : "User Invalid";
         _textOut.color = isDataExists ? Color.green : Color.red;
+    }
+
+    IEnumerator KeepScanning()
+    {
+        while (true)
+        {
+            Scan();
+            yield return new WaitForSeconds(1);
+        }
     }
 }

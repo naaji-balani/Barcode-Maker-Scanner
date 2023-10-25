@@ -76,7 +76,7 @@ public class GoogleSheetReader : MonoBehaviour
         }
     }
 
-    bool NumberExistsInList(string numberToCheck)
+    public bool NumberExistsInList(string numberToCheck)
     {
         return mobileNumbers.Contains(numberToCheck);
     }
