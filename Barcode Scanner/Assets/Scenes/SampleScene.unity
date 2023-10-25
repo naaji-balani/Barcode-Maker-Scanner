@@ -266,7 +266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8f2c80c26f2a248822b63c7515042f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  googleSheetURL: https://docs.google.com/spreadsheets/d/e/2PACX-1vScZ9HbD1tpHL8o2tpVtouehzScSlZiEMlDNjdQV6skhmCuA2OPYkopZRfdoq-4dEmBf2SUPKXDKC-Y/pubhtml?gid=1216281496&single=true
+  googleSheetAPIEndpoint: https://sheets.googleapis.com/v4/spreadsheets/1IRQjUlqxL3xwkTeuArGlY9Xih56boghLZt9KJX8SRyI/values/A1:Z
+  apiKey: AIzaSyCi1_5U6tnpTFQgZ67uMTPUPTq3Jp8ynvo
 --- !u!4 &412643030
 Transform:
   m_ObjectHideFlags: 0
