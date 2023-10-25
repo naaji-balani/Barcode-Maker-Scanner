@@ -36,7 +36,7 @@ public class QRCodeScanner : MonoBehaviour
         WebCamDevice[] devices = WebCamTexture.devices;
         if (devices.Length == 0)
         {
-            _textOut.text = "No Camera";
+            //_textOut.text = "No Camera";
             _isCamAvaible = false;
             return;
         }
@@ -44,7 +44,7 @@ public class QRCodeScanner : MonoBehaviour
         {
             if (devices[i].isFrontFacing == false)
             {
-                _textOut.text = "Front Camera";
+                //_textOut.text = "Front Camera";
                 _cameraTexture = new WebCamTexture(devices[i].name, (int)_scanZone.rect.width, (int)_scanZone.rect.height);
                 break;
             }
@@ -87,7 +87,7 @@ public class QRCodeScanner : MonoBehaviour
             }
             else
             {
-                _textOut.text = "";
+                //_textOut.text = "";
             }
         }
         catch
@@ -100,6 +100,13 @@ public class QRCodeScanner : MonoBehaviour
     {
         _textOut.text = isDataExists ? "User Valid" : "User Invalid";
         _textOut.color = isDataExists ? Color.green : Color.red;
+
+        Invoke("RemoveText", 4);
+    }
+
+    private void RemoveText()
+    {
+        _textOut.text = "";
     }
 
     IEnumerator KeepScanning()
