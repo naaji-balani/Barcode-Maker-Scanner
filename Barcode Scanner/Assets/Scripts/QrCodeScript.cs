@@ -14,6 +14,8 @@ public class QRCodeScanner : MonoBehaviour
     [SerializeField]
     private RectTransform _scanZone;
 
+    [SerializeField] GoogleSheetReader _sheets;
+
     private bool _isCamAvaible;
     private WebCamTexture _cameraTexture;
     void Start()
@@ -78,7 +80,8 @@ public class QRCodeScanner : MonoBehaviour
             Result result = barcodeReader.Decode(_cameraTexture.GetPixels32(), _cameraTexture.width, _cameraTexture.height);
             if (result != null)
             {
-                _textOut.text = result.Text;
+                _sheets.ReadDataFromGoogleSheet(result.Text, GetResult);
+                //_textOut.text = result.Text;
             }
             else
             {
@@ -89,5 +92,11 @@ public class QRCodeScanner : MonoBehaviour
         {
             _textOut.text = "FAILED IN TRY";
         }
+    }
+
+    private void GetResult(bool isDataExists)
+    {
+        _textOut.text = isDataExists ? "User Valid" : "User Invalid";
+        _textOut.color = isDataExists ? Color.green : Color.red;
     }
 }

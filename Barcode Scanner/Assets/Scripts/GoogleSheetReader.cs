@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 using SimpleJSON;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 public class GoogleSheetReader : MonoBehaviour
 {
@@ -12,10 +13,10 @@ public class GoogleSheetReader : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(ReadDataFromGoogleSheet());
+        //StartCoroutine(ReadDataFromGoogleSheet());
     }
 
-    IEnumerator ReadDataFromGoogleSheet()
+    public IEnumerator ReadDataFromGoogleSheet(string numberToCheck,Action<bool> callback)
     {
         string url = googleSheetAPIEndpoint + "?key=" + apiKey;
         UnityWebRequest www = UnityWebRequest.Get(url);
@@ -60,20 +61,17 @@ public class GoogleSheetReader : MonoBehaviour
                         mobileNumbers.Add(mobileNumber);
                     }
 
-                    // Now you have all mobile numbers in the 'mobileNumbers' list
 
-                    // You can check if a number exists in the list with a function
-                    bool numberExists = NumberExistsInList("9999999990");
-                    Debug.Log("Number exists in the list: " + numberExists);
+                    callback(NumberExistsInList(numberToCheck));
                 }
                 else
                 {
-                    Debug.LogError("Number column not found in the header.");
+                    Debug.Log("Number column not found in the header.");
                 }
             }
             else
             {
-                Debug.LogError("No data found in the values array.");
+                Debug.Log("No data found in the values array.");
             }
         }
     }
