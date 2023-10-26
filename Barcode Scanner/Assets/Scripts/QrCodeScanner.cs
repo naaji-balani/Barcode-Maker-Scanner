@@ -11,7 +11,7 @@ public class QRCodeScanner : MonoBehaviour
     [SerializeField]
     private AspectRatioFitter _aspectRatioFitter;
     [SerializeField]
-    private TextMeshProUGUI _textOut;
+    private TextMeshProUGUI _textOut,_personsText;
     [SerializeField]
     private RectTransform _scanZone;
 
@@ -64,7 +64,7 @@ public class QRCodeScanner : MonoBehaviour
         // Correct the orientation of the camera feed.
         int orientation = _cameraTexture.videoRotationAngle;
         orientation = (360 - orientation) % 360; // Correct for orientation issues
-        _rawImageBackground.rectTransform.localEulerAngles = new Vector3(0, 180, orientation);
+        _rawImageBackground.rectTransform.localEulerAngles = new Vector3(0, 0, orientation);
 
         float ratio = (float)_cameraTexture.width / (float)_cameraTexture.height;
         _aspectRatioFitter.aspectRatio = ratio;
@@ -82,7 +82,6 @@ public class QRCodeScanner : MonoBehaviour
             Result result = barcodeReader.Decode(_cameraTexture.GetPixels32(), _cameraTexture.width, _cameraTexture.height);
             if (result != null)
             {
-                //_sheets.ReadDataFromGoogleSheet(result.Text, GetResult);
                 StartCoroutine(_sheets.ReadDataFromGoogleSheet(result.Text, GetResult));
             }
             else
@@ -92,13 +91,15 @@ public class QRCodeScanner : MonoBehaviour
         }
         catch
         {
+
             //_textOut.text = "FAILED IN TRY";
         }
     }
 
-    private void GetResult(bool isDataExists)
+    private void GetResult(bool isDataExists, int personsCount)
     {
         _textOut.text = isDataExists ? "User Valid" : "User Invalid";
+        _personsText.text = personsCount.ToString();
         _textOut.color = isDataExists ? Color.green : Color.red;
 
         Invoke("RemoveText", 4);
@@ -107,6 +108,7 @@ public class QRCodeScanner : MonoBehaviour
     private void RemoveText()
     {
         _textOut.text = "";
+        _personsText.text = "";
     }
 
     IEnumerator KeepScanning()

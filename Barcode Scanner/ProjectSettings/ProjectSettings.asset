@@ -154,6 +154,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
+    Android: com.Techventions.BarcodeScanner
     iPhone: com.Techventions.Barcode-Scanner
   buildNumber:
     Standalone: 0
